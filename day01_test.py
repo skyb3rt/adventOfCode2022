@@ -3,6 +3,7 @@ from day01 import get_max_calories, read_file, get_elfs_sum
 
 PUZZLE_FILE = "input/day01_test.txt"
 
+
 class Tests(unittest.TestCase):
 
     def test_get_max_calories(self):
