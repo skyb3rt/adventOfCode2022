@@ -16,6 +16,7 @@ def get_elfs_sum(puzzle: list) -> list[list[int]]:
         else:
             elfs.append(sum(elf))
             elf.clear()
+    elfs.append(sum(elf))
     return elfs
 
 
