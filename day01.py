@@ -2,6 +2,7 @@ from pathlib import Path
 
 PUZZLE_FILE = "input/day01.txt"
 
+
 def read_file(filename: str) -> list:
     return Path(filename).read_text(encoding="UTF-8").splitlines()
 

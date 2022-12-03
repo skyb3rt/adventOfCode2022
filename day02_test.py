@@ -3,6 +3,7 @@ from day02 import get_guide, is_winner, get_points, part1, part2
 
 PUZZLE_FILE = "input/day02_test.txt"
 
+
 class Tests(unittest.TestCase):
 
     test_guide = get_guide(PUZZLE_FILE)

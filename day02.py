@@ -39,16 +39,16 @@ def part1(guide: list[set]) -> int:
 def part2(guide: list[set]) -> int:
     points_round = 0
     for i, v in guide:
-        #Y : draw
+        # Y : draw
         if v == "Y":
             v = i
-        #Z : win
+        # Z : win
         elif v == "Z":
             i_move = moves.get(i)
             v_move = [k for k, v in rules_winner.items() if v == i_move][0]
             v_move = [k for k, v in moves.items() if v == v_move][1]
             v = v_move
-        #X : lose
+        # X : lose
         elif v == "X":
             i_move = moves.get(i)
             v_move = rules_winner.get(i_move)

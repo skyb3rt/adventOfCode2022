@@ -1,6 +1,5 @@
 # pylint: disable=invalid-name
 import unittest
-from pathlib import Path
 from day03 import get_puzzle, get_common, get_priorities, split_rucksacks
 
 PUZZLE_FILE = "input/day03_test.txt"
