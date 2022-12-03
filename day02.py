@@ -27,18 +27,18 @@ def get_points(outcome: str, move) -> int:
     return points
 
 
-def part1(moves: list) -> int:
+def part1(guide: list[set]) -> int:
     points_round = 0
-    for i, v in round:
+    for i, v in guide:
         outcom = is_winner(i, v)
         points = get_points(outcom, v)
         points_round += points
     return points_round
 
 
-def part2(moves: list) -> int:
+def part2(guide: list[set]) -> int:
     points_round = 0
-    for i, v in moves:
+    for i, v in guide:
         #Y : draw
         if v == "Y":
             v = i
@@ -60,7 +60,7 @@ def part2(moves: list) -> int:
     return points_round
 
 
-def get_guide(filename: str) -> list[set(str)]:
+def get_guide(filename: str) -> list:
     return [(line.split(" ")) for line in Path(filename).read_text(encoding="UTF-8").splitlines()]
 
 
