@@ -30,8 +30,8 @@ class Tests(unittest.TestCase):
 
     def test_part1(self):
         puzzle = self.puzzle_part1
-        assert sum([get_priorities(get_common(x[0], x[1]))
-                   for x in puzzle]) == 157
+        assert sum((get_priorities(get_common(x[0], x[1]))
+                   for x in puzzle)) == 157
 
     def test_part2(self):
         puzzle = self.puzzle_part2

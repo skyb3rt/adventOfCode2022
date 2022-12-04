@@ -26,7 +26,7 @@ def get_priorities(caracter: str) -> int:
 def part1():
     puzzle = get_puzzle(PUZZLE_FILE)
     puzzle = split_rucksacks(puzzle)
-    sum_puzzle = sum([get_priorities(get_common(x[0], x[1])) for x in puzzle])
+    sum_puzzle = sum((get_priorities(get_common(x[0], x[1])) for x in puzzle))
     print(f"Sum part 1: {sum_puzzle}")
 
 
