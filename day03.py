@@ -1,4 +1,5 @@
-# pylint: disable=invalid-name
+# pylint: disable=missing-module-docstring
+# pylint: disable=missing-function-docstring
 from pathlib import Path
 import string
 

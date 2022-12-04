@@ -1,3 +1,5 @@
+# pylint: disable=missing-module-docstring
+# pylint: disable=missing-function-docstring
 from pathlib import Path
 
 PUZZLE_FILE = "input/day02.txt"
@@ -12,12 +14,14 @@ rules_point_outcome = {'Winner': 6, "Loser": 0, "Draw": 3}
 def is_winner(move_elf: str, move: str) -> str:
     move_elf = moves.get(move_elf)
     move = moves.get(move)
+    result = None
     if move_elf == move:
-        return "Draw"
+        result = "Draw"
     if rules_winner.get(move_elf) == move:
-        return "Loser"
+        result = "Loser"
     if rules_winner.get(move) == move_elf:
-        return "Winner"
+        result = "Winner"
+    return result
 
 
 def get_points(outcome: str, move) -> int:
@@ -29,33 +33,33 @@ def get_points(outcome: str, move) -> int:
 
 def part1(guide: list[set]) -> int:
     points_round = 0
-    for i, v in guide:
-        outcom = is_winner(i, v)
-        points = get_points(outcom, v)
+    for i, j in guide:
+        outcom = is_winner(i, j)
+        points = get_points(outcom, j)
         points_round += points
     return points_round
 
 
 def part2(guide: list[set]) -> int:
     points_round = 0
-    for i, v in guide:
+    for i, j in guide:
         # Y : draw
-        if v == "Y":
-            v = i
+        if j == "Y":
+            j = i
         # Z : win
-        elif v == "Z":
+        elif j == "Z":
             i_move = moves.get(i)
-            v_move = [k for k, v in rules_winner.items() if v == i_move][0]
-            v_move = [k for k, v in moves.items() if v == v_move][1]
-            v = v_move
+            j_move = [k for k, j in rules_winner.items() if j == i_move][0]
+            j_move = [k for k, j in moves.items() if j == j_move][1]
+            j = j_move
         # X : lose
-        elif v == "X":
+        elif j == "X":
             i_move = moves.get(i)
-            v_move = rules_winner.get(i_move)
-            v_move = [k for k, v in moves.items() if v == v_move][1]
-            v = v_move
-        outcom = is_winner(i, v)
-        points = get_points(outcom, v)
+            j_move = rules_winner.get(i_move)
+            j_move = [k for k, j in moves.items() if j == j_move][1]
+            j = j_move
+        outcom = is_winner(i, j)
+        points = get_points(outcom, j)
         points_round += points
     return points_round
 
@@ -65,8 +69,8 @@ def get_guide(filename: str) -> list:
 
 
 if __name__ == "__main__":
-    guide = get_guide(PUZZLE_FILE)
-    points_game_1 = part1(guide)
-    points_game_2 = part2(guide)
+    puzzle = get_guide(PUZZLE_FILE)
+    points_game_1 = part1(puzzle)
+    points_game_2 = part2(puzzle)
     print(f"Part1: {points_game_1}")
     print(f"Part2: {points_game_2}")

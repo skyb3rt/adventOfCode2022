@@ -1,3 +1,6 @@
+# pylint: disable=missing-module-docstring
+# pylint: disable=missing-function-docstring
+# pylint: disable=missing-class-docstring
 import unittest
 from day01 import get_max_calories, read_file, get_elfs_sum
 

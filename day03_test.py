@@ -1,4 +1,6 @@
-# pylint: disable=invalid-name
+# pylint: disable=missing-module-docstring
+# pylint: disable=missing-function-docstring
+# pylint: disable=missing-class-docstring
 import unittest
 from day03 import get_puzzle, get_common, get_priorities, split_rucksacks
 
@@ -19,7 +21,8 @@ class Tests(unittest.TestCase):
         puzzle = self.puzzle_part1
         assert get_common(puzzle[0][0], puzzle[0][1]) == "p"
 
-    def test_get_priorities(self):
+    @staticmethod
+    def test_get_priorities():
         assert get_priorities("a") == 1
         assert get_priorities("z") == 26
         assert get_priorities("A") == 27

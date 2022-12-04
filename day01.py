@@ -1,3 +1,5 @@
+# pylint: disable=missing-module-docstring
+# pylint: disable=missing-function-docstring
 from pathlib import Path
 
 PUZZLE_FILE = "input/day01.txt"
