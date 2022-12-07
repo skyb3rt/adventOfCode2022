@@ -1,4 +1,4 @@
-
+# pylint: skip-file
 
 def get_puzzle(file) -> list:
     return Path(file).read_text(encoding='utf8').splitlines()

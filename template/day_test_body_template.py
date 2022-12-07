@@ -1,4 +1,4 @@
-
+# pylint: skip-file
 
 class Tests(unittest.TestCase):
     puzzle = get_puzzle(PUZZLE_FILE)
