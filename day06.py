@@ -1,5 +1,6 @@
 # pylint: disable=missing-module-docstring
 # pylint: disable=missing-function-docstring
+# pylint: disable=duplicate-code
 from pathlib import Path
 import os
 from aocd import submit
@@ -35,5 +36,5 @@ def part2(puzzle):
 if __name__ == '__main__':
     load_dotenv()
     puzzle_input = get_puzzle(PUZZLE_FILE)
-    submit(part1(puzzle_input), part="a", day=DAY, year=YEAR)  # 1287
+    submit(part1(puzzle_input), part="a", day=DAY, year=YEAR)
     submit(part2(puzzle_input), part="b", day=DAY, year=YEAR)
