@@ -5,12 +5,12 @@ class Tests(unittest.TestCase):
 
     def test_part1(self):
         puzzle = self.puzzle
-        assert part1(puzzle) == ?
+        assert part1(puzzle) == ""
 
 
     def test_part2(self):
         puzzle = self.puzzle
-        assert part2(puzzle) == ?
+        assert part2(puzzle) == ""
 
 
 if __name__ == '__main__':

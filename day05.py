@@ -1,9 +1,9 @@
 # pylint: disable=missing-module-docstring
 # pylint: disable=missing-function-docstring
 from pathlib import Path
+import os
 import parse
 from aocd import submit
-import os
 from dotenv import load_dotenv
 
 PUZZLE_FILE = "input/day05.txt"
@@ -20,8 +20,8 @@ def get_crane_index(puzzle: list) -> int:
 
 
 def get_crane_startvaules(crane_index: int, puzzle: list) -> list:
-    crane_count = max([int(l.strip())
-                      for l in puzzle[crane_index].split("   ")])
+    crane_count = max((int(l.strip())
+                      for l in puzzle[crane_index].split("   ")))
     crane = [[] for _ in range(crane_count)]
     puzzle_crane = [l.replace("    ", " ").split(" ")
                     for l in puzzle[:crane_index]]
@@ -34,7 +34,8 @@ def get_crane_startvaules(crane_index: int, puzzle: list) -> list:
 
 
 def get_crane_moves(puzzle: list):
-    return (parse.search("move {move:d} from {from:d} to {to:d}", line).named for line in puzzle if line.startswith("move"))
+    return (parse.search("move {move:d} from {from:d} to {to:d}", line).named
+            for line in puzzle if line.startswith("move"))
 
 
 def move_crates_9000(crane: list, puzzle_crate_moves):
@@ -45,7 +46,7 @@ def move_crates_9000(crane: list, puzzle_crate_moves):
         to_crate = move["to"]-1
         for _ in range(nr_of_crates):
             crate = crane[from_crate][0]
-            del (crane[from_crate][0])
+            del crane[from_crate][0]
             crane[to_crate].insert(0, crate)
     return crane
 
@@ -57,7 +58,7 @@ def move_crates_9001(crane: list, puzzle_crate_moves):
         from_crate = move["from"]-1
         to_crate = move["to"]-1
         crate = crane[from_crate][0:nr_of_crates]
-        del (crane[from_crate][0:nr_of_crates])
+        del crane[from_crate][0:nr_of_crates]
         crane[to_crate] = crate+crane[to_crate]
     return crane
 
