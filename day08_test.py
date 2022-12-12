@@ -1,4 +1,3 @@
-# pylint: skip-file
 # pylint: disable=missing-module-docstring
 # pylint: disable=missing-function-docstring
 # pylint: disable=missing-class-docstring
@@ -7,7 +6,6 @@ from day08 import get_puzzle, part1, part2
 
 PUZZLE_FILE = "input/day08_test.txt"
 DAY = "8"
-# pylint: skip-file
 
 class Tests(unittest.TestCase):
     puzzle = get_puzzle(PUZZLE_FILE)
