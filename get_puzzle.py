@@ -14,19 +14,19 @@ if __name__ == "__main__":
     load_dotenv()
     YEAR = os.environ.get("YEAR")
     puzzle = Puzzle(year=YEAR, day=DAY)
-
+    PYLINT_SKIP_FILE="# pylint: skip-file"
     day_top_template = Path(
         "template/day_top_template.py").read_text(encoding='utf-8')
     day_body_template = Path(
-        "template/day_body_template.py").read_text(encoding='utf-8')
+        "template/day_body_template.py").read_text(encoding='utf-8').replace(PYLINT_SKIP_FILE,"")
     puzzle_input = f"PUZZLE_FILE = \"input/day{DAY:02}_test.txt\"\n"
-    puzzle_day = f"DAY = \"{DAY}\"\n"
+    puzzle_day = f"DAY = {DAY}\n"
     day_template = day_top_template+puzzle_input+puzzle_day+day_body_template
 
     day_test_top_template = Path(
         "template/day_test_top_template.py").read_text(encoding='utf-8')
     day_test_body_template = Path(
-        "template/day_test_body_template.py").read_text(encoding='utf-8')
+        "template/day_test_body_template.py").read_text(encoding='utf-8').replace(PYLINT_SKIP_FILE,"")
     imports = f"from day{DAY:02} import get_puzzle, part1, part2\n\n"
     puzzle_test_input = f"PUZZLE_FILE = \"input/day{DAY:02}_test.txt\"\n"
     day_test_template = day_test_top_template+imports + \

@@ -14,5 +14,13 @@ def part2(puzzle):
 if __name__ == '__main__':
     load_dotenv()
     puzzle_input = get_puzzle(PUZZLE_FILE)
-    submit(part1(puzzle_input), part="a", day=DAY, year=YEAR)
-    submit(part2(puzzle_input), part="b", day=DAY, year=YEAR)
+    RESULT_PART1 = part1(puzzle_input)
+    RESULT_PART2 = part2(puzzle_input)
+    print(f"part_1: {RESULT_PART1}")
+    print(f"part_2: {RESULT_PART2}")
+    ready = input("submit [1,2]?")
+    if ready == "1":
+        submit(RESULT_PART1, part="a", day=DAY, year=YEAR)
+    if ready == "2":
+        submit(RESULT_PART2, part="b", day=DAY, year=YEAR)
+

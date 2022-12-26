@@ -72,7 +72,7 @@ if __name__ == '__main__':
     result_part2 = part2(puzzle_input)
     print(f"part_1: {result_part1}")
     print(f"part_2: {result_part2}")
-    ready = input("klar?")
+    ready = input("submit [1,2]?")
     if ready == "1":
         submit(result_part1, part="a", day=DAY, year=YEAR)
     if ready == "2":
