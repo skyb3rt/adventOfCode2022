@@ -3,6 +3,7 @@
 # pylint: disable=missing-class-docstring
 # pylint: disable=too-few-public-methods
 # pylint: disable=no-name-in-module
+# pylint: disable=duplicate-code
 from pathlib import Path
 import os
 from aocd import submit
