@@ -1,68 +1,122 @@
-# pylint: skip-file
 # pylint: disable=missing-module-docstring
 # pylint: disable=missing-function-docstring
 # pylint: disable=duplicate-code
-from pathlib import Path
+# pylint: disable=missing-class-docstring
+
 import os
-from dataclasses import dataclass
-import parse
 from aocd import submit
 from dotenv import load_dotenv
+import networkx as nx
+
 
 YEAR = os.environ.get("YEAR")
-PUZZLE_FILE = "input/day12_test.txt"
+PUZZLE_FILE = "input/day12.txt"
 DAY = 12
 
 
-def get_puzzle(file) -> list:
-    puzzle=[]
-    with open(file, 'r') as f:
-        puzzle=[[y for y in x.strip()] for x in f.readlines()]
+def get_puzzle(filename) -> list:
+    puzzle = []
+    with open(filename, 'r',encoding='utf-8') as file:
+        puzzle = [list(x.strip()) for x in file.readlines()]
     return puzzle
 
 
 class Map():
-    def __init__(self,puzzle):
-        self.puzzle=puzzle
-        self.hight=len(puzzle)
-        self.width=len(puzzle[0])
-        self.position=(0,0)
-    
+    def __init__(self, puzzle):
+        self.puzzle = puzzle
+        self.hight = len(puzzle)
+        self.width = len(puzzle[0])
+        self.position = (0, 0)
+        self.paths = []
+
     def get_letter(self):
-        return  self.puzzle[self.position[0]][self.position[1]]   
+        return self.puzzle[self.position[0]][self.position[1]]
 
-    def get_new_letter(self,position):
-        return self.puzzle[position[0]][position[1]]  
+    def get_new_letter(self, position):
+        return self.puzzle[position[0]][position[1]]
 
-    def get_new_position(self,move):
-        return (self.position[0]+move[0],self.position[1]+move[1])
+    def get_new_position(self, move, position):
+        return (position[0]+move[0], position[1]+move[1])
 
-    def is_valid_move(self,move):
-            letter=self.get_letter()
-            letter=ord(letter) if letter!="S" else ord("a")
-            match move:
-                case "R":
-                    new_position=self.get_new_position((0,1))
-                    return self.width> new_position[1] and ord(self.get_new_letter(new_position))<=letter+1
-                case "L":
-                    new_position=self.get_new_position((0,-1))
-                    return 0>= new_position[1] and ord(self.get_new_letter(new_position))<=letter+1
-                case "U":
-                    new_position=self.get_new_position((-1,0))
-                    return 0<= new_position[0] and ord(self.get_new_letter(new_position))<=letter+1
-                case "D":
-                    new_position=self.get_new_position((1,0))
-                    return self.hight> new_position[0] and ord(self.get_new_letter(new_position))<=letter+1
+    def find_letter(self, letter, all_letters=False):
+        position_letters = []
+        for i in range(self.hight):
+            for j in range(self.width):
+                if letter == self.puzzle[i][j]:
+                    if not all_letters:
+                        return (i, j)
+                    position_letters.append((i, j))
+        return position_letters
+
+    def is_valid_move(self, move, position):
+        letter = self.get_new_letter(position)
+        letter = ord(letter) if letter != "S" else ord("a")
+        match move:
+            case "R" | (0, 1):
+                new_position = self.get_new_position((0, 1), position)
+            case "L" | (0, -1):
+                new_position = self.get_new_position((0, -1), position)
+            case "U" | (-1, 0):
+                new_position = self.get_new_position((-1, 0), position)
+            case "D" | (1, 0):
+                new_position = self.get_new_position((1, 0), position)
+        if self.hight > new_position[0] >= 0 and self.width > new_position[1] >= 0:
+            new_letter = self.get_new_letter(new_position)
+            return ord(new_letter) <= letter+1 or new_letter == "E"
+        return False
+
+    def get_valid_moves(self, position: tuple) -> list[tuple]:
+        valid_moves = []
+        for move in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+            if self.is_valid_move(move, position):
+                valid_moves.append(self.get_new_position(move, position))
+        return valid_moves
+
+    def get_all_posible_moves(self) -> list[tuple]:
+        valid_moves = []
+        for i in range(self.hight):
+            valid_moves.append([])
+            for j in range(self.width):
+                valid_moves[i].append(self.get_valid_moves((i, j)))
+        return valid_moves
 
 
 def part1(puzzle):
-    my_map=Map(puzzle)
-    while True:
-        print(my_map.is_valid_move(input("[R,L,U,D]")))
+    my_map = Map(puzzle)
+    start_position = my_map.find_letter("S")
+    stop_position = my_map.find_letter("E")
+    valid_moves = my_map.get_all_posible_moves()
+    graph = nx.DiGraph()
+    nodes = [(i, j) for i in range(my_map.hight) for j in range(my_map.width)]
+    graph.add_nodes_from(nodes)
+    for i in range(my_map.hight):
+        for j in range(my_map.width):
+            for item in valid_moves[i][j]:
+                graph.add_edge((i, j), item)
+    return nx.shortest_path_length(graph, start_position, stop_position)
 
 
 def part2(puzzle):
-    pass
+    my_map = Map(puzzle)
+    start_positions = my_map.find_letter("a", all_letters=True)
+    all_path_lengths = []
+    stop_position = my_map.find_letter("E")
+    valid_moves = my_map.get_all_posible_moves()
+    graph = nx.DiGraph()
+    nodes = [(i, j) for i in range(my_map.hight)
+                for j in range(my_map.width)]
+    graph.add_nodes_from(nodes)
+    for i in range(my_map.hight):
+        for j in range(my_map.width):
+            for item in valid_moves[i][j]:
+                graph.add_edge((i, j), item)
+    for start_position in start_positions:
+        try:
+            all_path_lengths.append(nx.shortest_path_length(
+                graph, start_position, stop_position))
+        except nx.exception.NetworkXNoPath:
+            pass
+    return min(all_path_lengths)
 
 
 if __name__ == '__main__':
@@ -77,4 +131,3 @@ if __name__ == '__main__':
         submit(RESULT_PART1, part="a", day=DAY, year=YEAR)
     if ready == "2":
         submit(RESULT_PART2, part="b", day=DAY, year=YEAR)
-
